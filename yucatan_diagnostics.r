@@ -1145,9 +1145,3 @@ Mean S2N Equals", s2n))
 }
 
 rm(list = c("power", "pwr", "summary", "tmp", "i", "mean", "noise", "port", "s2n", "wd", "object", "gaps","gap_length", "gaps_by_port", "times_by_port"))
-
-
-#IMPROVEMENTS
-# 1. Consistent Directory. Drop file on desktop and it reads it.
-# 2. Make it so script skips 434 parts of code if no 434 data is detected.
-# 3. Make a diagnostic plot or summary that shows when or if the transmitter wasn't detected.
