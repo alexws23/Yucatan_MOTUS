@@ -118,17 +118,6 @@ data <- as.data.frame(do.call(rbind, split_fixed), stringsAsFactors = FALSE)
 
 # Assign column names
 colnames(data) <- c("port","time","freq","power","noise","S2N")
- 
-data_gps <- data %>% 
-  filter(port == "C") %>% 
-  select(c("port", "time", "freq", "power")) %>% 
-  mutate(time = as.numeric(time),
-         time = as.POSIXct(time, origin = "1970-01-01"))
-colnames(data_gps) <- c("C", "time", "prec", "elapsed")
-
-data_gps %>% 
-  ggplot(aes(x = time, y = prec))+
-  geom_point()
 
 # Remove rows starting with C, G, or S
 data <- data[!substr(data$port, 1, 1) %in% c("C", "G", "S"), ]
