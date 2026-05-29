@@ -15,11 +15,11 @@ library(patchwork)
 # Extract the file into a folder on the Desktop named Diagnostics
 # Modify the working directory below.
 
-#setwd("C:/Users/🟡YOURUSERNAME🟡/Desktop/Diagnostics/") 
- 
+#setwd("C:/Users/🟡YOURUSERNAME🟡/Desktop/Diagnostics/")
+setwd("C:/Users/awsmilor/Desktop/Diagnostics/")
+
 ### One Last Step: Set the desired gap length ###
 gap_length = 40 #Default is 40 seconds, meaning all missed beacon pulses will be highlighted. Set a higher number if you are only interested in long gaps
-#gap_length = 5 #If using a newly deployed beacon, I suggest setting the length to 5, since new beacons pulse every 5 seconds.
 
 ############################################
 ### 🟢 Run Script 🟢 ###
@@ -630,6 +630,9 @@ if (!exists(object_name)) {
 ###########################################################################################################
 
 ###################### Get time difference #################################################################
+if (nrow(data_p5_2 > 0)) {
+  
+
 df_p5 <- data_p5_2 %>%
   mutate(diff = time - lag(time, default = first(time)))
 options(digits=3)
@@ -737,13 +740,28 @@ if (nrow(df_p5_1) > 0) {
     message(paste("Object", object_name, "already exists."))
   }
 }
-
+} else {
+  
+  # Name of the object you want to check
+  object_name <- "port_5"
+  
+  # Check if the object exists in the environment
+  if (!exists(object_name)) {
+    # Create a new object with the specified name
+    assign(object_name, data.frame(time = "1999-01-01 12:00:00", freq_5 = NA, power_5 = NA, noise_5 = NA, S2N_5 = NA, PI_1_5 = NA, PI_2_5 = NA, PI_3_5 = NA,PInt_5 = NA))
+    message(paste("Object", object_name, "was not found and a placeholder has been created.
+                🔴 This may indicate an issue. See diagnostic recommendations below"))
+  } else {
+    message(paste("Object", object_name, "already exists."))}
+}
 
 ###########################################################################################################
 ######################################## Port 6 ###########################################################
 ###########################################################################################################
 
 ###################### Get time difference #################################################################
+if (nrow(data_p6_2) > 0) {
+  
 df_p6 <- data_p6_2 %>%
   mutate(diff = time - lag(time, default = first(time)))
 options(digits=3)
@@ -786,7 +804,7 @@ if (nrow(df_p6_1) > 0) {
   ### If you want to delete rows with a zero
   df_p6_1 <- df_p6_1[!(df_p6_1$targets_2 %in% 0),]
   
-  if (nrow(df_p5_1) > 0) {
+  if (nrow(df_p6_1) > 0) {
   ###########################################################
   
   row.names(df_p6_1) <- NULL
@@ -837,6 +855,21 @@ if (nrow(df_p6_1) > 0) {
       message(paste("Object", object_name, "already exists."))
     }}
 }else{
+  
+  # Name of the object you want to check
+  object_name <- "port_6"
+  
+  # Check if the object exists in the environment
+  if (!exists(object_name)) {
+    # Create a new object with the specified name
+    assign(object_name, data.frame(time = "1999-01-01 12:00:00", freq_6 = NA, power_6 = NA, noise_6 = NA, S2N_6 = NA, PI_1_6 = NA, PI_2_6 = NA, PI_3_6 = NA,PInt_6 = NA))
+    message(paste("Object", object_name, "was not found and a placeholder has been created.
+                🔴 This may indicate an issue. See diagnostic recommendations below"))
+  } else {
+    message(paste("Object", object_name, "already exists."))
+  }
+}
+}else {
   
   # Name of the object you want to check
   object_name <- "port_6"
@@ -1145,3 +1178,4 @@ Mean S2N Equals", s2n))
 }
 
 rm(list = c("power", "pwr", "summary", "tmp", "i", "mean", "noise", "port", "s2n", "wd", "object", "gaps","gap_length", "gaps_by_port", "times_by_port"))
+
